@@ -1,0 +1,133 @@
+{
+    "Created": [{
+            "to": "Ready to ship",
+            "condition": "source == destination"
+        },
+        {
+            "to": "Waiting transit::Waiting dispatch",
+            "condition": "source != destination"
+        },
+        {
+            "to": "Aborted",
+            "condition": "cancelled early"
+        }
+    ],
+    "Pick-up requested": [{
+            "to": "Ready to ship",
+            "condition": "source == destination and pick-up undone."
+        },
+        {
+            "to": "Waiting transit",
+            "condition": "source != destination and pick-up undone."
+        }
+    ],
+    "In progress": [{
+            "to": "Ready to ship",
+            "condition": "source == destination"
+        },
+        {
+            "to": "Waiting transit",
+            "condition": "source != destination"
+        }
+    ],
+    "Waiting transit::Waiting dispatch": [{
+        "to": "Waiting transit::In bag",
+        "condition": "bag created"
+    }],
+    "Waiting transit::In bag": [{
+        "to": "Waiting transit::In transit zone",
+        "condition": "bag moved to transfer zone, bag with status (in transfer zone)"
+    }],
+    "Waiting transit::In transit zone": [{
+        "to": "In transit::In navette",
+        "condition": "bag loaded into shuttle, bag with status (in navette)"
+    }],
+    "In transit::In navette": [{
+        "to": "In transit::Ready to be received",
+        "condition": "shuttle arrives"
+    }],
+    "In transit::Ready to be received": [{
+        "to": "In transit::Arrived",
+        "condition": "bags scanned at the correct destination warehouse"
+    }],
+    "In transit::Arrived": [{
+        "to": "Ready to ship::Arrived",
+        "condition": "orders scanned at the correct destination warehouse"
+    }],
+    "Ready to ship::Arrived": [{
+        "to": "Shipped",
+        "condition": "assigned to delivery agent"
+    }],
+    "Shipped": [{
+            "to": "Delivered",
+            "condition": "successful delivery"
+        },
+        {
+            "to": "Alerted",
+            "condition": "issue during delivery"
+        },
+        {
+            "to": "Postponed",
+            "condition": "rescheduled"
+        }
+    ],
+    "Alerted::Canceled": [{
+            "to": "Aborted::Not returned yet to warehouse",
+            "condition": "cancellation confirmed from follow-up team"
+        },
+        {
+            "to": "Alerted::Suspended",
+            "condition": "cancellation refused from follow-up team"
+        }
+    ],
+    "Aborted::Not returned yet to warehouse": [{
+            "to": "Aborted::Waiting dispatch",
+            "condition": "awaiting return to source destination when warehouse source != warehouse destination"
+        },
+        {
+            "to": "Ready to be returned",
+            "condition": "arrives at warehouse and warehouse source == warehouse destination"
+        }
+    ],
+    "Aborted::Waiting dispatch": [{
+        "to": "Aborted::In bag",
+        "condition": "Return bag created "
+    }],
+    "Aborted::In bag": [{
+        "to": "Waiting transit::In transit zone",
+        "condition": "bag moved to transfer zone, bag with status (in transfer zone)"
+    }],
+    "Aborted::In transit zone": [{
+        "to": "In transit for return::In navette",
+        "condition": "bag loaded into shuttle, bag with status (in navette)"
+    }],
+    "In transit for return::In navette": [{
+        "to": "In transit for return::Ready to be received",
+        "condition": "shuttle arrives"
+    }],
+    "In transit for return::Ready to be received": [{
+        "to": "Ready to be returned",
+        "condition": "order received at the source warehouse"
+    }],
+    "Alerted::Suspended": [{
+        "to": "Ready to ship",
+        "condition": "client wants delivery"
+    }],
+    "Ready to be returned": [{
+        "to": "Taken by store",
+        "condition": "store picks up his returned orders"
+    }],
+    "Postponed": [{
+            "to": "Shipped",
+            "condition": "date of shipment == today's date "
+        },
+        {
+            "to": "Aborted::Waiting dispatch",
+            "condition": "order cancelled from client and awaiting return to source destination when warehouse source != warehouse destination"
+        },
+        {
+            "to": "Ready to be returned",
+            "condition": "order cancelled from client and source warehouse == destination warehouse"
+        }
+    ]
+}

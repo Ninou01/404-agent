@@ -1,0 +1,467 @@
+{
+    "flows": {
+        "reception": {
+            "steps": [{
+                    "step": "Orders waiting to be received",
+                    "order_status": ["Created", "Pick-up requested", "In progress"],
+                    "related_entity": {}
+                },
+                {
+                    "step": "The receptionist creates a new reception draft voucher",
+                    "order_status": ["Created", "Pick-up requested", "In progress"],
+                    "related_entity": {}
+                },
+                {
+                    "step": "He indicates the reception warehouse (by default his warehouse is selected) or DC",
+                    "order_status": ["Created", "Pick-up requested", "In progress"],
+                    "related_entity": {}
+                },
+                {
+                    "step": "He scans the orders one by one, the scanned orders are checked for any possible errors",
+                    "order_status": ["Created", "Pick-up requested", "In progress"],
+                    "related_entity": {}
+                },
+                {
+                    "step": "Once all orders are scanned, he validates the reception",
+                    "order_status": ["Created", "Pick-up requested", "In progress"],
+                    "related_entity": {}
+                },
+                {
+                    "step": "The reception voucher is officially created",
+                    "order_status": ["Ready to ship", "Waiting transit"],
+                    "related_entity": {
+                        "entity": "voucher",
+                        "status": "Confirmed"
+                    }
+                }
+            ]
+        },
+        "transfer": {
+            "steps": [{
+                    "step": "Business orders waiting to be transferred",
+                    "order_status": ["Waiting transit"],
+                    "order_intra_status": ["Waiting dispatch"],
+                    "related_entity": {}
+                },
+                {
+                    "step": "The transfers agent receives the orders on a conveyor one by one",
+                    "order_status": ["Waiting transit"],
+                    "order_intra_status": ["Waiting dispatch"],
+                    "related_entity": {}
+                },
+                {
+                    "step": "For each order he scans the warehouse destination box",
+                    "order_status": ["Waiting transit"],
+                    "order_intra_status": ["Waiting dispatch"],
+                    "related_entity": {}
+                },
+                {
+                    "step": "He scans the order, and then puts it inside the box",
+                    "order_status": ["Waiting transit"],
+                    "order_intra_status": ["Waiting dispatch"],
+                    "related_entity": {}
+                },
+                {
+                    "step": "Once the box is full, the agent closes the bag and generates a label for this bag",
+                    "order_status": ["Waiting transit"],
+                    "order_intra_status": ["In bag"],
+                    "related_entity": {
+                        "entity": "bag",
+                        "intra_status": "Waiting transit"
+                    }
+                },
+                {
+                    "step": "The bags are transferred to the transfers zone",
+                    "order_status": ["Waiting transit"],
+                    "order_intra_status": ["In transit zone"],
+                    "related_entity": {
+                        "entity": "bag",
+                        "intra_status": "In transit zone"
+                    }
+                },
+                {
+                    "step": "The shuttle driver scans the shuttle's label",
+                    "order_status": ["In transit"],
+                    "order_intra_status": ["In navette"],
+                    "related_entity": {
+                        "entity": "bag",
+                        "intra_status": "In navette"
+                    }
+                },
+                {
+                    "step": "He starts putting the bags inside the shuttle, after scanning each one",
+                    "order_status": ["In transit"],
+                    "order_intra_status": ["In navette"],
+                    "related_entity": {
+                        "entity": "bag",
+                        "intra_status": "In navette"
+                    }
+                },
+                {
+                    "step": "Once the shuttle arrives at the destination warehouse, he scans the warehouse barcode",
+                    "order_status": ["In transit"],
+                    "order_intra_status": ["Ready to be received"],
+                    "related_entity": {
+                        "entity": "bag",
+                        "intra_status": "Ready to be received"
+                    }
+                },
+                {
+                    "step": "Once the shuttle arrives at the destination warehouse, the bags are scanned to be received",
+                    "order_status": ["In transit"],
+                    "order_intra_status": ["Ready to be received"],
+                    "related_entity": {
+                        "entity": "bag",
+                        "intra_status": "Arrived"
+                    }
+                },
+                {
+                    "step": "The orders are also scanned to be received",
+                    "order_status": ["Ready to ship"],
+                    "order_intra_status": ["Arrived"],
+                    "related_entity": {}
+                }
+            ]
+        },
+        "last_mile": {
+            "steps": [{
+                    "step": "The delivery agent comes to Maystro",
+                    "order_status": ["Postponed", "Alerted", "Suspended"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "He goes through the Last Mile - Inverse",
+                    "order_status": ["Postponed", "Alerted", "Suspended"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "He gives back the remaining orders that were not delivered",
+                    "order_status": ["Postponed", "Aborted", "Ready to ship"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "He goes through the Orders payments, where he pays the sum of the delivered orders",
+                    "order_status": [],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "The delivery agent can request a new pack of orders",
+                    "order_status": [],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "The picker receives a ticket indicating the DA name, zone, and capacity",
+                    "order_status": [],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "The picker picks random N orders (N <= DA capacity) from the DA zone",
+                    "order_status": ["Ready to ship"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "Meanwhile the DA goes through Last Mile - Forward",
+                    "order_status": [],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "The picker gives the selected orders to the LM agent, he scans them one by one after scanning the DA ID",
+                    "order_status": ["Shipped"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "Once the process is completed, the DA can start delivering his orders",
+                    "order_status": ["Shipped"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                }
+            ]
+        },
+        "alerted_orders_followup": {
+            "steps": [{
+                    "step": "When the final client cancels his order the delivery agent alerts the order",
+                    "order_status": ["Alerted"],
+                    "order_intra_status": ["Canceled"],
+                    "related_entity": {}
+                },
+                {
+                    "step": "The follow-up team calls the client and confirms if the order has really been canceled",
+                    "order_status": ["Alerted"],
+                    "order_intra_status": ["Canceled"],
+                    "related_entity": {}
+                },
+                {
+                    "step": "If confirmed: the order becomes aborted",
+                    "order_status": ["Aborted"],
+                    "order_intra_status": ["Not returned yet to warehouse"],
+                    "related_entity": {}
+                },
+                {
+                    "step": "If not confirmed: the order remains alerted, with intra-status suspended",
+                    "order_status": ["Alerted"],
+                    "order_intra_status": ["Suspended"],
+                    "related_entity": {}
+                },
+                {
+                    "step": "Once the order whose cancellation was confirmed (aborted) is returned to the warehouse, it becomes aborted and should be returned to the store's owner",
+                    "order_status": ["Aborted"],
+                    "order_intra_status": ["Waiting dispatch", "Ready to be returned"],
+                    "related_entity": {}
+                },
+                {
+                    "step": "Once the order that has been suspended is returned to the warehouse, it becomes ready to ship once again and then goes through the expedition process again",
+                    "order_status": ["Ready to ship"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                }
+            ]
+        },
+        "return": {
+            "steps": [{
+                    "step": "Aborted orders need to be returned to the source warehouse",
+                    "order_status": ["Aborted"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "They go through the exact same Transfer process They are placed in bags, and transferred using the business transfers methodology",
+                    "order_status": ["In transit (return)"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "Once the orders are received at the source warehouse The orders status becomes ready to be returned",
+                    "order_status": ["Ready to be returned"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "They go through the exit process to be taken by the store",
+                    "order_status": ["Ready to be returned"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                }
+            ]
+        },
+        "exit": {
+            "steps": [{
+                    "step": "The store comes to Maystro agency",
+                    "order_status": ["Ready to be returned"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "The exit agent selects the store",
+                    "order_status": ["Ready to be returned"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "The list of orders ready to be returned to the store is shown",
+                    "order_status": ["Ready to be returned"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "The agent picks up these orders",
+                    "order_status": ["Ready to be returned"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "He scans them one by one and validates the creation of exit voucher",
+                    "order_status": ["Ready to be returned"],
+                    "order_intra_status": [],
+                    "related_entity": {}
+                },
+                {
+                    "step": "The orders are then taken by store and the voucher is created with status 'completed'",
+                    "order_status": ["Taken by store"],
+                    "order_intra_status": [],
+                    "related_entity": {
+                        "entity": "exit_voucher",
+                        "status": "Confirmed"
+                    }
+                }
+            ]
+        }
+    },
+    "statuses": [
+        {
+            "name": "Created",
+            "description": "The order is created by the store on the beta application.",
+            "context": "Always first status."
+        },
+        {
+            "name": "Pick-up requested",
+            "description": "The store requests a Maystro agent to pick up the order.",
+            "context": "After creation, when the store confirms a pickup request."
+        },
+        {
+            "name": "In progress",
+            "description": "A Maystro agent picks up the order from the store.",
+            "context": "Once pickup begins."
+        },
+        {
+            "name": "Waiting transit",
+            "description": "Order is received at the source warehouse and needs to be transferred to another warehouse.",
+            "context": "If source != destination warehouse."
+        },
+        {
+            "name": "In transit",
+            "description": "The order is being transferred to the destination warehouse.",
+            "context": "Between source and destination warehouses."
+        },
+        {
+            "name": "Ready to ship",
+            "description": "The order is at the destination warehouse (or source if direct delivery) and ready to be shipped.",
+            "context": "Once at warehouse and prepared for delivery."
+        },
+        {
+            "name": "Shipped",
+            "description": "The order has been scheduled for delivery and assigned to a delivery agent/route.",
+            "context": "Between ready to ship and delivery attempt."
+        },
+        {
+            "name": "Delivered",
+            "description": "The order has been successfully delivered to the final client.",
+            "context": "End status if successful."
+        },
+        {
+            "name": "Postponed",
+            "description": "Delivery was rescheduled to another date.",
+            "context": "Temporarily interrupts delivery."
+        },
+        {
+            "name": "Alerted",
+            "description": "The delivery agent alerted the order (client wants to cancel, postpone, is not answering, wrong adresse..); pending confirmation from the follow-up team.",
+            "context": "A waiting status before potential abortion, or another attempt to ship the order."
+        },
+        {
+            "name": "Aborted",
+            "description": "Order is officially canceled: confirmed by follow-up, failed delivery after 3 attempts, or timeout.",
+            "context": "Transition to return if not delivered."
+        },
+        {
+            "name": "In transit to be returned",
+            "description": "The order is being returned back to the source warehouse.",
+            "context": "After abortion or cancellation."
+        },
+        {
+            "name": "Ready to be returned",
+            "description": "Returned order has reached the warehouse and is ready for store pickup.",
+            "context": "Final warehouse state for returned items."
+        },
+        {
+            "name": "Taken by store",
+            "description": "The store has picked up their returned item.",
+            "context": "End status for returned and picked-up orders."
+        },
+        {
+            "name": "Not received",
+            "description": "A failure status indicating that the order was not received where expected.",
+            "context": "Used with context: 'store_reception', 'transfer_reception', or 'return_reception'."
+        }
+    ],
+    "order_intra_statuses": [
+        {
+            "name": "Waiting dispatch",
+            "description": "The order is waiting to be added into a bag for transfer.",
+            "context": "Before being placed into a bag during transfer preparation."
+        },
+        {
+            "name": "In bag",
+            "description": "The order has been placed into a bag and is ready for zone transfer.",
+            "context": "When the bag is filled and closed, before moving to the transfer zone."
+        },
+        {
+            "name": "In transit zone",
+            "description": "The order is in a bag that has reached the designated transfer zone.",
+            "context": "Waiting to be loaded onto the shuttle at the transfer zone."
+        },
+        {
+            "name": "In navette",
+            "description": "The order is currently being transported in the shuttle.",
+            "context": "While the shuttle is en route to the destination warehouse."
+        },
+        {
+            "name": "Ready to be received",
+            "description": "The order is at its destination warehouse, awaiting reception.",
+            "context": "After shuttle arrival but before the order is officially scanned."
+        },
+        {
+            "name": "Arrived",
+            "description": "The order has been successfully received at its destination warehouse.",
+            "context": "After the bag and order are scanned for reception."
+        },
+        {
+            "name": "Suspended",
+            "description": "The order is temporarily blocked while waiting for client confirmation.",
+            "context": "When the delivery agent alerts the order and follow-up hasn't confirmed the cancellation."
+        },
+        {
+            "name": "Canceled",
+            "description": "The order was alerted and confirmed to be cancelled by the client.",
+            "context": "Applies during follow-up investigations before abortion is finalized."
+        },
+        {
+            "name": "Not returned yet to warehouse",
+            "description": "The order has been aborted but not yet returned to the warehouse.",
+            "context": "Intermediate intra-status between abortion and return logistics."
+        }
+    ],
+    "related_entities": {
+        "reception_voucher": {
+            "statuses": [{
+                "name": "Confirmed",
+                "description": "The reception voucher is officially created and reflects the successful reception of the orders.",
+                "context": "Final state after scanning and validating all incoming orders."
+            }]
+        },
+        "exit_voucher": {
+            "statuses": [{
+                "name": "Confirmed",
+                "description": "The exit voucher is generated when a store picks up its returned orders from the warehouse.",
+                "context": "Final state after all orders are scanned and handed back to the store."
+            }]
+        },
+        "bag": {
+            "statuses": [
+                {
+                    "name": "Waiting transit",
+                    "description": "The bag has been created, it contains a collection of orders and is waiting to be moved to the transfer zone.",
+                    "context": "Just after creation, before physical movement."
+                },
+                {
+                    "name": "In transit zone",
+                    "description": "The bag has been placed in the transit zone, awaiting loading onto a shuttle.",
+                    "context": "Intermediate phase before being dispatched."
+                },
+                {
+                    "name": "In navette",
+                    "description": "The bag is currently being transported in a shuttle between warehouses.",
+                    "context": "During the physical transfer between locations."
+                },
+                {
+                    "name": "Ready to be received",
+                    "description": "The bag has arrived at the destination warehouse and is awaiting reception scan.",
+                    "context": "After travel, before official intake."
+                },
+                {
+                    "name": "Arrived",
+                    "description": "The bag has been scanned and received at the destination warehouse.",
+                    "context": "Final intra-status of the transfer journey."
+                }
+            ]
+        }
+    }
+}
