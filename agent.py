@@ -45,5 +45,5 @@ llm = OpenAI(model="gpt-4o")
 agent = ReActAgent.from_tools(llm=llm, tools=tools, memory=memory, verbose=True, system_prompt=SYSTEM_PROMPT)
 
 while (prompt := input("Enter a prompt (q to quit): ")) != "q":
-    result = agent.query(prompt)
+    result = agent.chat(prompt)
     print(result)
